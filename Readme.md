@@ -43,9 +43,10 @@ docker run -d -e TELEGRAM_KEY="<YOUR_TELEGRAM_TOKEN>" grocery-telegram-bot
 Here are some screenshots of the bot in action:
 
 <div style="display: flex; justify-content: space-around;">
+    <img src="photos/show_cart.png" alt="Show Cart" width="300" />
+    <img src="photos/add_recipe.png" alt="Show Cart" width="300" />
     <img src="photos/add_grocery_he.png" alt="Add Grocery" width="300" />
     <img src="photos/add_recipe_he.png" alt="Add Recipe" width="300" />
-    <img src="photos/show_cart.png" alt="Show Cart" width="300" />
 </div>
 
 ## Contributing
