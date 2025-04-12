@@ -24,7 +24,7 @@ Welcome to the Grocery Assistant Bot! This Telegram bot helps you manage your gr
 
 3. Set up your environment variables (Telegram and OpenAI tokens) by renaming `.env.example` to `.env` file and filling in the tokens.
 
-## Installation for Docker
+### Installation for Docker
 ```
 docker build -t grocery-telegram-bot .
 docker run -d -e TELEGRAM_KEY="<YOUR_TELEGRAM_TOKEN>" grocery-telegram-bot
@@ -42,14 +42,11 @@ docker run -d -e TELEGRAM_KEY="<YOUR_TELEGRAM_TOKEN>" grocery-telegram-bot
 
 Here are some screenshots of the bot in action:
 
-![Add Grocery](photos/add_grocery_he.png)
-*Adding an item to the grocery list*
-
-![Add Recipe](photos/add_recipe_he.png)
-*Adding ingredients from a recipe*
-
-![Show Cart](photos/show_cart.png)
-*Viewing your grocery cart*
+<div style="display: flex; justify-content: space-around;">
+    <img src="photos/add_grocery_he.png" alt="Add Grocery" width="300" />
+    <img src="photos/add_recipe_he.png" alt="Add Recipe" width="300" />
+    <img src="photos/show_cart.png" alt="Show Cart" width="300" />
+</div>
 
 ## Contributing
 
