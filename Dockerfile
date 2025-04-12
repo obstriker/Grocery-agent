@@ -25,4 +25,4 @@ ENV TELEGRAM_KEY=<your_telegram_key_here>
 EXPOSE 8080
 
 # Set the default command to run the main Telegram bot script
-CMD ["python", "bot.py"]
+CMD ["python", "src/bot.py"]
