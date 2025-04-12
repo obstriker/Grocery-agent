@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy project files (Python scripts, .env, grocery_list.txt)
-COPY . .
+COPY src/ .
 
 # Install system packages required for building Python libraries and web scraping
 # RUN apt-get update && apt-get install -y \
@@ -25,4 +25,4 @@ ENV TELEGRAM_KEY=<your_telegram_key_here>
 EXPOSE 8080
 
 # Set the default command to run the main Telegram bot script
-CMD ["python", "src/bot.py"]
+CMD ["python", "bot.py"]
