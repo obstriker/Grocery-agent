@@ -1,20 +1,48 @@
+import os
+import json
 from pathlib import Path
+from dotenv import load_dotenv
 
-from agno.agent import Agent
+from agno.agent import Agent, AgentMemory
 from agno.tools.file import FileTools
 from agno.models.openai import OpenAIChat
-from agno.agent import Agent, AgentMemory
-from dotenv import load_dotenv
 from agno.storage.agent.sqlite import SqliteAgentStorage
-from os import getenv
-from webtool import *
+from webtool import get_info_from_website
 
+# Load environment variables
 load_dotenv()
 
-api_key = getenv("QDRANT_API_KEY")
-qdrant_url = getenv("QDRANT_URL")
+# File path and environment setup
+grocery_path = 'grocery_list.txt'
 
-agent = Agent(tools=[FileTools(), get_info_from_website],
+# Create the grocery file if it doesn't exist
+if not os.path.exists(grocery_path):
+    with open(grocery_path, 'w', encoding='utf-8') as f:
+        f.write('')
+
+def save_grocery_list(content: str) -> str:
+    """Overwrite the grocery list with new content."""
+    try:
+        dir_name = os.path.dirname(grocery_path)
+        if dir_name:
+            os.makedirs(dir_name, exist_ok=True)
+        with open(grocery_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return json.dumps({"status": "success"})
+    except OSError as e:
+        print(f"ERROR    Error saving to file: {e}")
+        return json.dumps({"status": "failed", "error": str(e)})
+
+def read_grocery_list() -> str:
+    """Read the current grocery list."""
+    try:
+        with open(grocery_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return json.dumps({"content": content})
+    except FileNotFoundError:
+        return json.dumps({"status": "failed", "error": "File does not exist"})
+
+agent = Agent(tools=[save_grocery_list, read_grocery_list, get_info_from_website],
               model=OpenAIChat(id="gpt-4o-mini"),
               memory=AgentMemory(),
               storage=SqliteAgentStorage(table_name="agent_sessions", db_file="agent_storage.db"),
@@ -50,4 +78,5 @@ When starting a new conversation, read the current grocery_list.txt to understan
 When adding or removing items, make sure to update the grocery_list.txt file accordingly.
 If the user says that he has some of the grocery at home then remove it from the list.
 
+When not returning a grocery list keep your answers short upto one sentence
               """, show_tool_calls=True)

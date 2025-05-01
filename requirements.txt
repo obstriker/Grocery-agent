@@ -1,6 +1,7 @@
+git+https://github.com/obstriker/WhatsappWebPy@main#egg=whatsapp_client
 python-telegram-bot==20.3
 python-dotenv==1.0.0
 beautifulsoup4==4.12.2
 chardet==5.2.0
 agno==0.1.2
-urllib
+urllib3
