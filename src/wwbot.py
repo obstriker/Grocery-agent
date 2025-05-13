@@ -7,11 +7,26 @@ from os import getenv
 load_dotenv()
 
 # Create the WhatsApp client
-whatsapp = WhatsAppWebClient()
+whatsapp = WhatsAppWebClient(setup_node=False)
+
+def load_model():
+    import whisper
+    return whisper.load_model("base")
+
+def transcribe_audio(voice_file_path, model):
+    return model.transcribe(voice_file_path)
 
 # Session handling
 user_sessions = {}
 SESSION_TIMEOUT = timedelta(hours=4)
+
+def voice_message_callback(sender, voice_file_path):
+    model = load_model()
+    
+    result = transcribe_audio(voice_file_path, model)
+    print(f"voice: {result['text']}")
+    
+    message_handler(sender, result["text"])
 
 def message_handler(sender, message):
     user_id = sender
@@ -36,8 +51,8 @@ def message_handler(sender, message):
     user_sessions[user_id]['last_active'] = datetime.now()
 
     # Run the agent and send response
-    response = agent.run(user_message, user_id=user_id)
+    response = agent.run(user_message, user_id=user_id, keep_node_running=True)
     whatsapp.send(user_id, response.content)
 
 # Start the bot
-whatsapp.run(quiet=False, callback=message_handler)
+whatsapp.run(quiet=False, callback=message_handler, voice_callback=voice_message_callback)

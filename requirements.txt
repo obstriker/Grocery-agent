@@ -5,3 +5,7 @@ beautifulsoup4==4.12.2
 chardet==5.2.0
 agno==0.1.2
 urllib3
+requests
+openai
+sqlalchemy
+openai-whisper
